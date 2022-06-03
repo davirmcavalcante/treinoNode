@@ -91,7 +91,7 @@ router.get("/categorias/edit/:id", eAdmin, (req, res) => {
     }).catch((err) => {
         req.flash("error_msg", "Esta categoria não existe")
         res.redirect("/admin/categorias")
-    })
+    })  
 })
 
 router.post("/categorias/edit", eAdmin, (req, res) => {
@@ -110,7 +110,7 @@ router.post("/categorias/edit", eAdmin, (req, res) => {
         })
     }).catch((err) => {
         req.flash("error_msg", "Houve um erro ao editar a categoria!")
-        req.redirect("/admin/categorias")
+        res.redirect("/admin/categorias")
     })
     /* 
     Obs: aqui podemos fazer uma validação da edição, assim como fizemos a validação da nova categoria na rota /categoria/nova.
@@ -139,6 +139,7 @@ router.get('/postagens', eAdmin, (req, res) => {
     })
 })
 
+// Rota para criar nova postagem
 router.get('/postagens/add', eAdmin, (req, res) => {
     // Passa todas as categorias para nossa view de postagens
     Categoria.find().then((categorias) => {
@@ -180,6 +181,7 @@ router.post('/postagens/nova', eAdmin, (req, res) => {
     }
 })
 
+// Rota para editar postagem dada pelo parâmetro id
 router.get("/postagens/edit/:id", eAdmin, (req, res) => {
     // Pesquisa postagem com o id igual ao parâmetro id passado acima.
     Postagem.findOne({_id: req.params.id}).then((postagem) => {

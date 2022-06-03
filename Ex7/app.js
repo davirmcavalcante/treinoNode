@@ -93,6 +93,7 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         /* Obs: toda vez que você criar um middleware, lembre de usar o comando next, para passar, dar continuidade nas páginas e não ficar parado com a requisição. */
 
 // Rotas
+    // Rota para a página principal, com lista de postagem publica.
     app.get('/', (req,res) => {
         //res.send("Rota principal!")
         Postagem.find().populate("categoria").sort({data: "desc"}).then((postagens) => {
@@ -103,6 +104,7 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         })
     })
 
+    // Rota para ver a postagem dada pelo parâmetro slug
     app.get("/postagem/:slug", (req, res) => {
         // Pesquisa postagem pelo slug que é dado pelo parâmetro da rota.
         Postagem.findOne({slug: req.params.slug}).then((postagem) => {
@@ -118,6 +120,7 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         })
     })
 
+    // Rota pública para ver as categorias
     app.get("/categorias", (req, res) => {
         Categoria.find().then((categorias) => {
             res.render("categorias/index", {categorias: categorias})
@@ -127,6 +130,7 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         })
     })
 
+    // Rota para ver a categoria dada pelo parâmetro slug
     app.get("/categorias/:slug", (req, res) => {
         Categoria.findOne({slug: req.params.slug}).then((categoria) => {
             /* Note que quando passamos o método find(), precisamos colocar uma condição dentro. */
@@ -151,6 +155,7 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         res.send("Erro 404!")
     })
 
+    // Rota para uso de admin
     app.use('/admin', admin)
 
     app.use('/usuarios', usuarios)
@@ -166,4 +171,10 @@ A tag .container é uma classe chamada container do bootstrap que centraliza o c
 */
 /*
 Analogamente ao navbar, vamos pegar um código de Jumbotron no bootstrap e colocar no arquivo index.handlebars.
+*/
+/*
+Note: como a pasta node_modules é grande e pesada, não devemos subí-la para o repositorio remoto (github ou outro), para isso usamos o arquivo .gitignore para quando fazermos o commit, o git ignorar a pasta node_modules e não colocá-la no repositório. Quando for necessário baixar o repositório e usar o node_modules, basta dar um npm install, ou um npm --i, ou instalar algum outro módulo que esteja associado que a pasta node_modules já aparece junto.
+*/
+/*
+Para saber os status de http (os códigos do http, como 404), você pode olhar o site http.cat.
 */
