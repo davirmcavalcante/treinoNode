@@ -46,6 +46,9 @@ const sequelize = new Sequelize ('test', 'root', 'sua_senha', {
     dialect: 'mysql'
 })
 /* Note que ao criarmos a conexão precisamos passar os parâmetros: nome do banco de dados, usuário do mysql, senha do mysql e por ultimo um objeto json com o host (local, servidor do banco de dados) e o dialect (qual banco de dados vai se conectar). */
+/*
+Obs: a senha é um dado sensível e não deve ser exposta no código, muito menos se ele for para o github ou algo do tipo. Para resolver isso, deve-se usar variáveis de ambiente. Assim, basta criar um arquivo .env que irá conter as variáveis de ambiente com seus valores. Por fim, deve-se colocá-la no arquivo .gitignore, para ela não subir para o github. Além disso, deve-se baixar também a biblioteca dotenv. Após importar o módulo e declarar a configuração (declara-se: dotenv.config();), pode-se usá-lo na aplicação. Por exemplo, no caso do banco mongodb, no local do usuário e da senha colocaremos, respectivamente: ${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}
+*/
 
 // Teste de autenticação
 sequelize.authenticate().then(function(){

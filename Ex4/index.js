@@ -59,3 +59,6 @@ abre o cmd > coloca cd e o endereço do diretório que vc ta trabalhando > escre
 A flag -g indica que vai baixar o nodemon globalmente, ou seja em todo o sistema e não apenas na pasta que você ta usando. 
 Agora, toda vez que você for rodar o projeto utilize o nodemon ao invez de node, no cmd. Ex: C:\Users\davir\OneDrive\Área de Trabalho\treinoNode\Ex3> nodemon app.js. Agora está tudo pronto para uso. */
 
+/*
+Note: como a pasta node_modules é grande e pesada, não devemos subí-la para o repositorio remoto (github ou outro), para isso usamos o arquivo .gitignore para quando fazermos o commit, o git ignorar a pasta node_modules e não colocá-la no repositório. Quando for necessário baixar o repositório e usar o node_modules, basta dar um npm install, ou um npm --i, ou instalar algum outro módulo que esteja associado que a pasta node_modules já aparece junto.
+*/

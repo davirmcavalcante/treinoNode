@@ -71,6 +71,9 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
         allowProtoMethodsByDefault: true
     }}))
     app.set('view engine', 'handlebars')
+    /*
+    Obs: outra forma de criar views, com html, é com a biblioteca ejs, usando arquivos .ejs. Para usar o JavaScript nesse arquivo, basta colocar a parte JS dentro de <% %>.
+    */
 
     // Mongoose
     mongoose.connect("mongodb://localhost/blogapp").then(() => {
@@ -78,6 +81,9 @@ O flash é um tipo de sessão que só aparece uma vez a cada utilização, ou se
     }).catch((err) => {
         console.log("Erro ao se conectar: " + err)
     })
+    /*
+    Obs: a senha é um dado sensível e não deve ser exposta no código, muito menos se ele for para o github ou algo do tipo. Para resolver isso, deve-se usar variáveis de ambiente. Assim, basta criar um arquivo .env que irá conter as variáveis de ambiente com seus valores. Por fim, deve-se colocá-la no arquivo .gitignore, para ela não subir para o github. Além disso, deve-se baixar também a biblioteca dotenv. Após importar o módulo e declarar a configuração (declara-se: dotenv.config();), pode-se usá-lo na aplicação. Por exemplo, no caso do banco mongodb, no local do usuário e da senha colocaremos, respectivamente: ${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}
+    */
 
     // Public
         app.use(express.static(path.join(__dirname, 'public')))

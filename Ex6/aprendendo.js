@@ -70,3 +70,6 @@ O comando use, define o banco que vc quer usar. Exemplo: use aprendendo;
 O comando "show collections;" mostra as collections, ou seja, "as tabelas".
 O comando "db.nomeDaCollection.find();" mostra os dados da collection. Exemplo: db.usuarios.find();
 */
+/*
+Lembre: como a pasta node_modules é grande e pesada, não devemos subí-la para o repositorio remoto (github ou outro), para isso usamos o arquivo .gitignore para quando fazermos o commit, o git ignorar a pasta node_modules e não colocá-la no repositório. Quando for necessário baixar o repositório e usar o node_modules, basta dar um npm install, ou um npm --i, ou instalar algum outro módulo que esteja associado que a pasta node_modules já aparece junto.
+*/

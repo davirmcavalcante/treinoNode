@@ -42,10 +42,12 @@ router.get('/categorias', eAdmin, (req, res) =>{
     */
 })
 
+// Rota para criar, adicionar, nova categoria
 router.get('/categorias/add', eAdmin, (req, res) => {
     res.render("admin/addcategorias")
 })
 
+// Rota para salvar nova categoria criada
 router.post("/categorias/nova", eAdmin, (req, res) => {
     // Validar formulário
     var erros = []
@@ -84,6 +86,7 @@ router.post("/categorias/nova", eAdmin, (req, res) => {
 Obs: quando criamos as rotas em arquivos diferentes, devemos avisar ao express no arquivo principal. Para isso, basta ir no arquivo principal, após as configurações e chamar as rotas, criando uma constante para receber o arquivo e passando uma rota, como prefixo, para receber as rotas. Caso você não queira que a url passe uma rota de prefixo, você deve criar as rotas no arquivo principal.
 */
 
+// Rota para editar categorias
 router.get("/categorias/edit/:id", eAdmin, (req, res) => {
     //res.send("Página de edição de categoria")
     Categoria.findOne({_id: req.params.id}).then((categoria) => {
@@ -94,6 +97,7 @@ router.get("/categorias/edit/:id", eAdmin, (req, res) => {
     })  
 })
 
+// Rota para salvar categoria editada
 router.post("/categorias/edit", eAdmin, (req, res) => {
     Categoria.findOne({_id: req.body.id}).then((categoria) => {
         // O nome da categoria recebe o valor que temos no sistema.
@@ -116,8 +120,22 @@ router.post("/categorias/edit", eAdmin, (req, res) => {
     Obs: aqui podemos fazer uma validação da edição, assim como fizemos a validação da nova categoria na rota /categoria/nova.
     */
 })
+/*
+Obs: para a edição de dados, o método mais comum é o uso das rotas patch ou put, que são apropriadas para isso e são análogas às rotas get, passadas com o parâmetro id.  O patch serve para fazer atualização parcial dos dados, ou seja, modificar apenas alguns campos, alguns registros, enquanto o put serve para atualizar todos os campos. Ex:
 
-// Rota para deletar categorias
+// Rota para editar, atualizar categoria
+router.patch("/categorias/edit/:id", eAdmin, (req, res) => {
+    Categoria.findByIdAndUpdate({_id: req.params.id}, {new: true}).then(() => {
+        req.flash("success_msg", "Categoria editada com sucesso!")
+        res.redirect("/admin/categorias")
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro interno")
+        res.redirect("/admin/categorias")
+    })
+})
+*/
+
+// Rota para deletar categoria
 router.post('/categorias/deletar', eAdmin, (req, res) => {
     Categoria.remove({_id: req.body.id}).then(() => {
         req.flash("success_msg", "Categoria deletada com sucesso!")
@@ -127,6 +145,20 @@ router.post('/categorias/deletar', eAdmin, (req, res) => {
         res.redirect("/admin/categorias")
     })
 })
+/*
+Obs: o método mais convencional para deleção de dados é usar a rota delete, passada com o parâmetro id, análoga ao método get, que é uma rota apropriada para isso. Ex:
+
+// Rota para deletar categoria
+router.delete("/categorias/deletar/:id", eAdmin, (req, res) => {
+    Categoria.findByIdAndRemove({_id: req.params.id}).then(() => {
+        req.flash("success_msg", "Categoria deletada com sucesso!")
+        res.redirect("/admin/categorias")
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro interno")
+        res.redirect("/admin/categorias")
+    })
+})
+*/
 
 // Rota para listagem de postagens
 router.get('/postagens', eAdmin, (req, res) => {
@@ -153,6 +185,7 @@ router.get('/postagens/add', eAdmin, (req, res) => {
 Note que as os arquivos passados por renderização em cada rota, não tem a barra "/" ao iniciar o endereçamento, veja o exemplo acima, em res.render('admin/addpostagem'), o admin não tem barra antes, direfentemente dos outros tipos de respostas.
 */
 
+// Rota para salvar nova postagem criada
 router.post('/postagens/nova', eAdmin, (req, res) => {
     var erros = []
 
@@ -187,7 +220,7 @@ router.get("/postagens/edit/:id", eAdmin, (req, res) => {
     Postagem.findOne({_id: req.params.id}).then((postagem) => {
         Categoria.find().then((categorias) => {
             res.render("admin/editpostagens", {categorias: categorias, postagem: postagem})
-            /* Note que o objeto que passamos acima, {categorias: categorias, postagem: postagem}), serve para mostrar no site a categoria e a postagem. Assim como para mostrar os dados em cada campo, nós colocamos um parâmetro value e passamos o campo de forma dinâmica. Veja isso no arquivo editpostagens.handlebars. */
+            /* Note que o objeto que passamos acima, {categorias: categorias, postagem: postagem}, serve para mostrar no site a categoria e a postagem. Assim como para mostrar os dados em cada campo, nós colocamos um parâmetro value e passamos o campo de forma dinâmica. Veja isso no arquivo editpostagens.handlebars. */
         }).catch((err) => {
             req.flash("error_msg", "Houve um erro ao listar as categorias!")
             res.redirect("/admin/postagens")
@@ -198,6 +231,7 @@ router.get("/postagens/edit/:id", eAdmin, (req, res) => {
     })
 })
 
+// Rota para salvar edição de postagem
 router.post("/postagens/edit", eAdmin, (req, res) => {
     Postagem.findOne({_id: req.body.id}).then((postagem) => {
         postagem.titulo = req.body.titulo
@@ -220,7 +254,22 @@ router.post("/postagens/edit", eAdmin, (req, res) => {
         //console.log(err)
     })
 })
+/*
+Obs: lembre que, para a edição de dados, o método mais comum é o uso das rotas patch ou put, que são apropriadas para isso. O patch serve para fazer atualização parcial dos dados, ou seja, modificar apenas alguns campos, alguns registros, enquanto o put serve para atualizar todos os campos e são análogas às rotas get, passadas com o parâmetro id. Ex:
 
+// Rota para editar, atualizar postagem
+router.patch("/postagens/edit/:id", eAdmin, (req, res) => {
+    Postagem.findByIdAndUpdate({_id: req.params.id}, {new: true}).then(() => {
+        req.flash("success_msg", "Postagem editada com sucesso!")
+        res.redirect("/admin/postagens")
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro interno")
+        res.redirect("/admin/postagens")
+    })
+})
+*/
+
+// Rota para deletar postagem
 router.get("/postagens/deletar/:id", eAdmin, (req, res) => {
     Postagem.remove({_id: req.params.id}).then(() => {
         req.flash("success_msg", "Postagem deletada com sucesso!")
@@ -231,7 +280,18 @@ router.get("/postagens/deletar/:id", eAdmin, (req, res) => {
     })
 })
 /*
-Obs: a forma acima não é muito recomendada, pois é usada uma rota get que não é muito segura. Outra alternativa é fazer da mesma forma que fizemos com as categorias.
+Obs: a forma acima não é muito recomendada, pois é usada uma rota get que não é muito segura. Outra alternativa é fazer da mesma forma que fizemos com as categorias, usando a rota post. Todavia, o método mais convencional é usar a rota delete, passada com o parâmetro id, análoga ao método get, que é uma rota apropriada para deleção de dados. Ex:
+
+// Rota para deletar postagem
+router.delete("/postagens/deletar/:id", eAdmin, (req, res) => {
+    Postagem.findByIdAndRemove({_id: req.params.id}).then(() => {
+        req.flash("success_msg", "Postagem deletada com sucesso!")
+        res.redirect("/admin/postagens")
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro interno")
+        res.redirect("/admin/postagens")
+    })
+})
 */
 
 module.exports = router

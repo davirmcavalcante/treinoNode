@@ -1,4 +1,4 @@
-// Os helpers são funções que ajudam com certas coisas. Eles são como os middlewares.
+// Os helpers são funções ou middlewares que ajudam com certas coisas. Eles são como os middlewares.
 
 module.exports = {
     // Helper para permitir que apenas usuários autenticados e administradores entrem em certas rotas do sistema.
